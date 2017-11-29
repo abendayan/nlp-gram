@@ -1,0 +1,49 @@
+Part 1 -- Weights
+a) a. Why does the program generate so many long sentences?
+Specifically, what grammar rule is responsible and why? What is special about this rule? discuss.
+
+The program generate so many long sentences because every sentence starts with NP,
+and the rule:
+1	NP	NP PP
+give the possibility of an infinite number of NP.
+
+b) The grammar allows multiple adjectives, as in the fine perplexed pickle.
+Why do the generated sentences do this so rarely? discuss.
+
+To have an adjective in a sentence, we need to use the rule:
+1	Noun	Adj Noun
+Meaning that only one rule can give us adjective, but when we have a noun, the grammar
+can choose from those rules:
+1	Noun	president
+1	Noun	sandwich
+1	Noun	pickle
+1	Noun	chief of staff
+1	Noun	floor
+
+So the probability to have an adjective (or multiple adjective) is way lower than the
+probability to "stop" and return a noun.
+
+c) Which numbers must you modify to fix the problems in (a) and (b), making the
+sentences shorter and the adjectives more frequent? Verify your answer by
+generating from the grammar. Discuss your solution (which rules and why).
+
+For the problem in (a):
+We have two rules for NP:
+1	NP	Det Noun
+1	NP	NP PP
+We need to give more weight to the rule that will generate sentence less long
+(the first rule), so we can use:
+2	NP	Det Noun
+1	NP	NP PP
+
+For the problem in (b):
+We have 6 rules for Noun:
+1	Noun	Adj Noun
+1	Noun	president
+1	Noun	sandwich
+1	Noun	pickle
+1	Noun	chief of staff
+1	Noun	floor
+The first rule is choosen 1/6 of the time, so if we change it to
+5 Noun  Adj Noun
+As it will be choosen 5/10=1/2 of the time, so we will have more adjectives. 
