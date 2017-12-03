@@ -27,17 +27,28 @@ class PCFG(object):
 
     def is_terminal(self, symbol): return symbol not in self._rules
 
-    def gen(self, symbol):
-        if self.is_terminal(symbol): return symbol
+    def gen(self, symbol, tree):
+        if self.is_terminal(symbol):
+            if tree:
+                start = " "
+            else:
+                start = ""
+            return start + symbol
         else:
             expansion = self.random_expansion(symbol)
-            return " ".join(self.gen(s) for s in expansion)
+            if tree:
+                start = "(" + symbol + " "
+                end = ")"
+            else:
+                start = ""
+                end = ""
+            return start + " ".join(self.gen(s, tree) for s in expansion) + end
 
-    def random_sent(self, number_phrases):
+    def random_sent(self, number_phrases, tree):
         list_phrases = []
         # generate multiple phrases if ask for
         for i in range(number_phrases):
-            list_phrases.append(self.gen("ROOT"))
+            list_phrases.append(self.gen("ROOT", tree))
         return list_phrases
 
     def random_expansion(self, symbol):
@@ -56,9 +67,10 @@ if __name__ == '__main__':
     import sys
     pcfg = PCFG.from_file(sys.argv[1])
     number_phrases = 1
-    if len(sys.argv) == 4:
-        if sys.argv[2] == "-n":
-            number_phrases = int(sys.argv[3])
-    list_phrases = pcfg.random_sent(number_phrases)
+    if "-n" in sys.argv:
+        index_n = sys.argv.index("-n")
+        number_phrases = int(index_n) + 1
+    tree = "-t" in sys.argv
+    list_phrases = pcfg.random_sent(number_phrases, tree)
     for phrase in list_phrases:
         print phrase
