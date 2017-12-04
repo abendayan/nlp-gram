@@ -22,6 +22,10 @@
 200	ROOT	SP .
 200	ROOT	SP !
 10	ROOT	is it true that SP ?     # mixing terminals and nonterminals is ok.
+# yes-no questions
+# did / will
+1000000 ROOT did SP ?
+1000000 ROOT will SP ?
 
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
@@ -108,7 +112,7 @@
 1	Adj	perplexed
 1	Adj	pickled
 
-1 Super  very 
+1 Super  very
 
 1	Prep	with
 1	Prep	on

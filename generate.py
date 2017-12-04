@@ -69,7 +69,7 @@ if __name__ == '__main__':
     number_phrases = 1
     if "-n" in sys.argv:
         index_n = sys.argv.index("-n")
-        number_phrases = int(index_n) + 1
+        number_phrases = int(sys.argv[int(index_n) + 1])
     tree = "-t" in sys.argv
     list_phrases = pcfg.random_sent(number_phrases, tree)
     for phrase in list_phrases:
