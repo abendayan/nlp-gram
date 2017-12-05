@@ -1,3 +1,7 @@
+# Adele Bendayan 336141056
+############
+# handles yes/no questions & wh-word questions
+
 # Symbols in the grammar are case-sensitive.
 #
 # This grammar uses a convention that
@@ -22,13 +26,34 @@
 200	ROOT	SP .
 200	ROOT	SP !
 10	ROOT	is it true that SP ?     # mixing terminals and nonterminals is ok.
-# yes-no questions
-# did / will
-1000000 ROOT did SP ?
-1000000 ROOT will SP ?
+
+# did
+70 ROOT did SPPRES ? # did sally ate the sandwich
+# who
+70 ROOT who SINV ? # who understood every president
+100 ROOT who would SPPRES Prep ? # who would sally eat with
+60 ROOT who would be VPING ? # who would be wanting a sandwich
+20 ROOT who would SPINGINV ? # who would be eating a sandwich
+# where
+200 ROOT where did SPPRES ? # where did sally eat
+20 ROOT where do SPPRES ? # where do sally eat a sandwich
+200 ROOT where should SPPRES ? # where should sally eat a sandwich
+# when
+20 ROOT when is SPINGGO ? # when is sally going to eat
+# what questions
+200 ROOT what did SPPRES ?
+200 ROOT what did SPPRES Prep ?
+# yes/no: will
+100 ROOT will SPPRES ? # questions like will sally eat a sandwich?
+100 ROOT will SPING ? # questions like will sally be eating a sandwich
+# I wonder questions
+100 ROOT I wonder who SINV .
+100 ROOT I wonder where S .
+50 ROOT I wonder what S .
 
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
+#    SPASS  = sentence in the pass tense
 #    NP = noun phrase
 #    SNP = second noun phrase (when the sentence is seperated by "and")
 #    VP = verb phrase
@@ -40,15 +65,39 @@
 #    CoordConj = Coordinating Conjunctions
 #    Super = Superlative
 
+1 SINV Verb NP
+1 SINV TransVerb NP
+1 SINV DitransVerb NP
 5	SP  S
 1 SP  RS S
 1 RS  Name VP Clause
 1	S NP VP
-1	S NP VP PP
+1	SPPRES NP VPPRES
+1	SPING NP be VPING
+1	SPINGGO NP going to be VPING
+1	SPINGINV be VPING NP
+1 NP  NP CoordConj NP
 5	VP	Verb NP
+5	VPPRES	VerbPRES NP
+5	VPING	VerbING NP
+1	VP	ActionVerb PP
+1 VP  TransVerb CoordConj VP
+1 VPPRES  TransVerbPRES CoordConj VP
+1 VP  DitransVerb CoordConj VP
 1	VP	DitransVerb Clause S
+1	VP	DitransVerb
+1	VPPRES	DitransVerbPRES Clause S
+1	VPPRES	DitransVerbPRES
+1	VPPRES	DitransVerbPRES CoordConj VPPRES
+1	VPPRES	ActionVerbPRES PP
+1	VPING	ActionVerbING PP
+1	VPING	DitransVerbING Clause S
 5	VP	IntVerb
+5	VPPRES	IntVerbPRES
+5	VPING	IntVerbING
 5	VP	TransVerb NP
+5	VPPRES	TransVerbPRES NP
+5	VPING	TransVerbING NP
 3	NP	Det Noun
 3	NP	Name
 1	NP	NP PP
@@ -70,18 +119,60 @@
 1	Verb	understood
 1	Verb	pickled
 
+1 ActionVerb worked
+
+1 ActionVerbPRES works
+
+1 ActionVerbING working
+
+1	VerbPRES	want
+1	VerbPRES	kiss
+1	VerbPRES	understand
+1	VerbPRES	pickle
+
+1	VerbING	wanting
+1	VerbING	kissing
+1	VerbING	understanding
+1	VerbING	pickling
+
 1 Clause  that
 
 1 IntVerb sighed
 1 IntVerb is lazy
+1 IntVerb was lazy
 1 IntVerb sleep
+1 IntVerb ate
+
+1 IntVerbPRES sigh
+1 IntVerbPRES is lazy
+1 IntVerbPRES sleep
+1 IntVerbPRES eat
+
+1 IntVerbING  sleeping
+1 IntVerbING  eating
 
 1 TransVerb eat
 1 TransVerb ate
+1 TransVerb wanted
 1 TransVerb perplexed
 1 TransVerb is eating
+1 TransVerb is
+
+1 TransVerbPRES eat
+1 TransVerbPRES is
+1 TransVerbPRES wants
+
+1 TransVerbING eating
+1 TransVerbING wanting
 
 1 DitransVerb thought
+1 DitransVerb understood
+
+1 DitransVerbPRES think
+1 DitransVerbPRES understand
+
+1 DitransVerbING thinking
+1 DitransVerbING understanding
 
 1	Det	the
 1	Det	a
@@ -90,11 +181,6 @@
 # coordinating conjuction: https://www.grammarly.com/blog/conjunctions/
 1 CoordConj  and
 1 CoordConj  or
-1 CoordConj  for
-1 CoordConj  nor
-1 CoordConj  but
-1 CoordConj  yet
-1 CoordConj  so
 
 1	Noun	president
 1	Noun	sandwich
@@ -102,10 +188,11 @@
 1	Noun	chief of staff
 1	Noun	floor
 1	Noun	proposal
+1	Noun	desk
 
 # names are noun without determinants
 1 Name  Sally
-5 Name  it
+1 Name  it
 
 1	Adj	fine
 1	Adj	delicious

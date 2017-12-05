@@ -1,3 +1,5 @@
+# Adele Bendayan 336141056
+
 # Symbols in the grammar are case-sensitive.
 #
 # This grammar uses a convention that
@@ -33,6 +35,9 @@
 #    Prep = preposition
 #    Adj = adjective
 #    IntVerb = intransitive verbs
+#    DitransVerb = ditransitive verbs
+#    TransVerb = transitive verbs
+#    ActionVerb = action verbs
 #    CoordConj = Coordinating Conjunctions
 #    Super = Superlative
 
@@ -40,9 +45,13 @@
 1 SP  RS S
 1 RS  Name VP Clause
 1	S NP VP
-1	S NP VP PP
-5	VP	Verb NP
-1	VP	DitransVerb Clause S
+1 NP  NP CoordConj NP
+1	VP	Verb NP
+1	VP	ActionVerb PP # action verbs are followed by prepositions (for g)
+1 VP  TransVerb CoordConj VP # to take care of "and" & "or" (for b)
+1 VP  DitransVerb CoordConj VP # to take care of "and" & "or" (for b)
+1	VP	DitransVerb Clause S # when we have "that" in a sentence (for j)
+1	VP	DitransVerb
 5	VP	IntVerb
 5	VP	TransVerb NP
 3	NP	Det Noun
@@ -52,8 +61,8 @@
 1	PP	PP
 5	Noun	Adjective Noun
 1 Adjective Adj
-1 Adjective Super Adjective
-1 Adjective Adj CoordConj Adj
+1 Adjective Super Adjective # to have superlatives
+1 Adjective Adj CoordConj Adj # to have multiples adjectives seperated by and or or
 
 # Vocabulary.  Your program can see that "ate" is a terminal
 # symbol because there exists no rule for rewriting it.
@@ -65,32 +74,33 @@
 1	Verb	kissed
 1	Verb	understood
 1	Verb	pickled
+1	Verb	worked
 
 1 Clause  that
 
 1 IntVerb sighed
 1 IntVerb is lazy
 1 IntVerb sleep
+1 IntVerb ate
+
+1 ActionVerb worked
 
 1 TransVerb eat
 1 TransVerb ate
+1 TransVerb wanted
 1 TransVerb perplexed
 1 TransVerb is eating
+1 TransVerb is
 
 1 DitransVerb thought
+1 DitransVerb understood
 
 1	Det	the
 1	Det	a
 1	Det	every
 
-# coordinating conjuction: https://www.grammarly.com/blog/conjunctions/
 1 CoordConj  and
 1 CoordConj  or
-1 CoordConj  for
-1 CoordConj  nor
-1 CoordConj  but
-1 CoordConj  yet
-1 CoordConj  so
 
 1	Noun	president
 1	Noun	sandwich
@@ -98,6 +108,7 @@
 1	Noun	chief of staff
 1	Noun	floor
 1	Noun	proposal
+1	Noun	desk
 
 # names are noun without determinants
 1 Name  Sally
@@ -108,7 +119,8 @@
 1	Adj	perplexed
 1	Adj	pickled
 
-1 Super  very 
+# Superlative
+1 Super  very
 
 1	Prep	with
 1	Prep	on

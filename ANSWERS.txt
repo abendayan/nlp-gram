@@ -46,4 +46,12 @@ We have 6 rules for Noun:
 1	Noun	floor
 The first rule is choosen 1/6 of the time, so if we change it to
 5 Noun  Adj Noun
-As it will be choosen 5/10=1/2 of the time, so we will have more adjectives. 
+As it will be choosen 5/10=1/2 of the time, so we will have more adjectives.
+
+Part 2 -- Extending the Grammar
+b) and h)/i) can interact in a bad way, because with b) we can have sentences
+with multiple nouns (Sally and the president ate a sandwich), and in h)/i)
+we introduce verbs that are conjugated in the present particip form, third person
+and singular (is _ing).
+So the two rules will give sentences like:
+*Sally and the president is eating a sandwich.

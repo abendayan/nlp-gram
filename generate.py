@@ -1,6 +1,10 @@
 from collections import defaultdict
 import random
 
+"""
+Adele Bendayan 336141056
+"""
+
 class PCFG(object):
     def __init__(self):
         self._rules = defaultdict(list)
